@@ -1,14 +1,22 @@
-#Menú Principal de opciones formado con dicc.
-def callMenu(opciones):
+#Para dar un poco de color: Usaremos sus atributos de clase como color en el texto de la Terminal (còdigo de color implementado cómo propiedad)
+class bcolors:
+    OK = '\033[92m' #GREEN
+    WARNING = '\033[93m' #YELLOW
+    FAIL = '\033[91m' #RED
+    RESET = '\033[0m' #RESET COLOR
 
-	for i in opciones:					#Iterando e imprimiendo opciones
-		print(str(i) + ") " + opciones[i])
+
+#Funciones generales al principio para ser invocadas desde el principio
+
+def	imprimirDic(D):
+	for items in D:					#Iterando e imprimiendo opciones
+		print(str(items) + " " + D[items])
+
+
+def callMenu(opciones):
+	imprimirDic(opciones) #Imprime opciones del Menú principal
 	eleccion = str(input("Ingrese la opción deseada por su número:"))
 	return eleccion[0]
-
-
-
-
 
 
 def Autenticacion():
@@ -22,26 +30,22 @@ def Autenticacion():
 		tried = tried+1
 	return tried
 
-"""Variables que convienen ser creada de una sola vez y ser usadas a través de parámetros , 
+"""	Variables que convienen ser creada de una sola vez y ser usadas a través de parámetros ,
 			ya que sino se re-implementaría con cada invocación a función"""
 
 #Genero Diccionario del menú principal
 MenudeOpciones = {
-    1 : "Teléfonos y contactos útiles por covid:" ,
-    2 : "Líneas telefónicas de atención en caso de situaciones de emegencia" ,
-    3 : "Números de asistenciaa las 24hs" ,
-    4 : "Páginas con más información",
-    5 : "Salir del programa"
+    1 : ") Teléfonos y contactos útiles por covid:" ,
+    2 : ") Páginas con más información" ,
+    3 : ") Consejos y recomendaciones al azar" ,
+    4 : ")Agregar consejo y recomendación",
+    5 : ") Salir del programa"
 }
 
 TelefonoYContactos = {
-	"Ministerio de Salud" : "Llamá al 120, es gratuito desde cualquier lugar del país y te atienden las 24 horas.",
-		"Whatsapp" : "Escribí `Hola´ (sin comillas) al número +54 9 11 2256-0566 y comenzá a chatear.",
-
-
-
-
-
+	"Ministerio de Salud" : " número  " + bcolors.WARNING  + "148" + bcolors.RESET + " es gratuito y te atienden las 24 horas.",
+	"Whatsapp" : " Escribí `Hola´ (sin comillas) al número" + bcolors.WARNING  + " +54 9 11 2256-0566 " + bcolors.RESET + "y comenzá a chatear.",
+	"Portal de COVID-19 (GBA)" : "número " + bcolors.WARNING  + "148 " + bcolors.RESET + "es gratuito y te atienden las 24 horas.",
 }
 
 ListaOpciones = []
@@ -53,7 +57,7 @@ ListaOpciones = []
 ok = (Autenticacion() < 3)				#Booleano que indica si hubo menos de 3 intentos
 
 if (not ok):							#Si hubo 3 intentos será bloqueado.
-	print(" \nBloqueado\n")
+	print( bcolors.FAIL + " \nBloqueado\n" + bcolors.RESET)
 	quit()
 
 while (ok):								# Entramos al menú/loop principal de nuestro Script/App.
@@ -61,8 +65,7 @@ while (ok):								# Entramos al menú/loop principal de nuestro Script/App.
 	if (choice == "5"):
 		quit()
 	elif (choice== "1" or choice== "2" or choice== "3"):
-		print(ListaOpciones);
-
+		print(ListaOpciones[choice]);
 
 
 
