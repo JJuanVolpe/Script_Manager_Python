@@ -1,4 +1,4 @@
-#Para dar un poco de color: Usaremos sus atributos de clase como color en el texto de la Terminal (còdigo de color implementado cómo propiedad)
+#Para dar un poco de color: Usaremos sus atributos de clase como color en el texto de la Terminal (código de color implementado cómo propiedad)
 class bcolors:
     OK = '\033[92m' #GREEN
     WARNING = '\033[93m' #YELLOW
