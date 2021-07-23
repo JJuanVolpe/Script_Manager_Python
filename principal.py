@@ -3,6 +3,7 @@ class bcolors:
     OK = '\033[92m' #GREEN
     WARNING = '\033[93m' #YELLOW
     FAIL = '\033[91m' #RED
+    LB = '\033[94m' #LIGHTBLUE
     RESET = '\033[0m' #RESET COLOR
 
 
@@ -12,61 +13,86 @@ def	imprimirDic(D):
 	for items in D:					#Iterando e imprimiendo opciones
 		print(str(items) + " " + D[items])
 
+def generarCampoEnDicc():
+	indice = len(MenudeConsejos) + 1
+	item = str(input("A continuacion ingrese el consejo que desee agregar al listado:"))
+	MenudeConsejos[str(indice)] = item
 
+
+#Proceso de llamado de menu principal
 def callMenu(opciones):
 	imprimirDic(opciones) #Imprime opciones del Menú principal
-	eleccion = str(input("Ingrese la opción deseada por su número:"))
+	eleccion = str(input("Ingrese la opción por el número correspondiente:\n"))
 	return eleccion[0]
 
-
+#Proceso de Login
 def Autenticacion():
 	passw = "brainstorming"
 	tried = 0		#Intentos ingresando password
 	while(tried < 3):
-		hit = str(input("Ingrese la contraseña para ser admitido por el sistema:\n"))
+		hit = str(input(bcolors.LB + "Ingrese la contraseña para ser admitido por el sistema:\n" + bcolors.RESET))
 		if (hit.__eq__(passw)):		#Usuario reconocido? entonces sale del loop, sino suma un intento
-			print("Bienvenido usuario!\n")
+			print(bcolors.OK + "Bienvenido usuario!\n" + bcolors.RESET)
 			break
 		tried = tried+1
 	return tried
 
-"""	Variables que convienen ser creada de una sola vez y ser usadas a través de parámetros ,
-			ya que sino se re-implementaría con cada invocación a función"""
 
-#Genero Diccionario del menú principal
+#	Variables creadas al principio, con el fin de ser usadas a través de parámetros, para evitar re-implementarlas en funciones
+
+#	Genero Diccionario del menú principal
 MenudeOpciones = {
-    1 : ") Teléfonos y contactos útiles por covid:" ,
-    2 : ") Páginas con más información" ,
-    3 : ") Consejos y recomendaciones al azar" ,
-    4 : ")Agregar consejo y recomendación",
-    5 : ") Salir del programa"
+    "1)" : " Teléfonos y contactos útiles por covid:" ,
+    "2)" : " Páginas con más información" ,
+    "3)" : " Consejos y recomendaciones al azar" ,
+    "4)" : " Agregar consejo y/0 recomendación",
+    "5)" : " Salir del programa"
 }
 
+#Genero Diccionario de Teléfonos
 TelefonoYContactos = {
-	"Ministerio de Salud" : " número  " + bcolors.WARNING  + "148" + bcolors.RESET + " es gratuito y te atienden las 24 horas.",
-	"Whatsapp" : " Escribí `Hola´ (sin comillas) al número" + bcolors.WARNING  + " +54 9 11 2256-0566 " + bcolors.RESET + "y comenzá a chatear.",
-	"Portal de COVID-19 (GBA)" : "número " + bcolors.WARNING  + "148 " + bcolors.RESET + "es gratuito y te atienden las 24 horas.",
+	"Ministerio de Salud: " : "Número  " + bcolors.WARNING  + "120" + bcolors.RESET + " es gratuito y te atienden las 24 horas.",
+	"Whatsapp: " : "Escribí `Hola´ (sin comillas) al número" + bcolors.WARNING  + " +54 9 11 2256-0566 " + bcolors.RESET + "y comenzá a chatear.",
+	"Portal de COVID-19 (GBA): " : "Número " + bcolors.WARNING  + "148 " + bcolors.RESET + ", linea que recibe consultas, dudas y reportes de síntomas de COVID-19.",
+	"Línea oficial para dudas o síntomas de coronavirus COVID-19: " :  bcolors.WARNING  + "0800-777-8476" + bcolors.RESET + "." ,
+	"Servicio de videollamada para personas con discapacidad auditiva: " : "Lunes a viernes de 10 a 15 horas: " +  bcolors.WARNING  + "11-5728-4011" + bcolors.RESET + ".\n"
 }
 
-ListaOpciones = []
+#Genero Diccionario de páginas web recomendadas
+PaginasWeb = {
+	"Información, recomendaciones y medidas de prevención del Ministerio de Salud de la Nación:" : "https://www.argentina.gob.ar/salud/coronavirus-COVID-19",
+	"Cuidados e información útil:" : "https://www.argentina.gob.ar/salud/coronavirus/cuidarnos",
+	"Teléfonos de provincias y CABA:" : "https://www.argentina.gob.ar/coronavirus/telefonos/provincias-caba \n"
+}
+
+#Genero Diccionario de Consejos
+MenudeConsejos = {
+    bcolors.OK + "1~" : "El barbijo tiene que cubrirte la nariz, la boca y el mentón" ,
+    			 "2~" : "Mantener una buena higiene, tanto personal cómo con el medio" ,
+    			 "3~" : "Evitar Aglomeración de gente o lugares con frecuentados por multitud " ,
+    			 "4~" : "Si no te encuentras bien, quedate en casa" + bcolors.RESET
+}
+
+#Generamos una lista de diccionarios para iterar facilmente, generar mayor reusabilidad y generalización de código.
+ListaOpciones = [TelefonoYContactos, PaginasWeb, MenudeConsejos]
 
 
-
-
-###Main
-ok = (Autenticacion() < 3)				#Booleano que indica si hubo menos de 3 intentos
+###	Main  Script
+ok = (Autenticacion() < 3)				#Boolean que indica si hubo menos de 3 intentos
 
 if (not ok):							#Si hubo 3 intentos será bloqueado.
 	print( bcolors.FAIL + " \nBloqueado\n" + bcolors.RESET)
 	quit()
 
 while (ok):								# Entramos al menú/loop principal de nuestro Script/App.
-	choice = callMenu(MenudeOpciones)
+	choice = callMenu(MenudeOpciones) 	# Directamente devolvemos el numero de la opcion en el menú
 	if (choice == "5"):
+		print(bcolors.LB + "Bye !" + bcolors.RESET)
 		quit()
 	elif (choice== "1" or choice== "2" or choice== "3"):
-		print(ListaOpciones[choice]);
-
-
-
+		x = int(choice)-1                     #Restamos uno a la eleccion para acceder al índice correcto en la lista de diccionarios.
+		imprimirDic(ListaOpciones[x]);		  #Accedemos a lista de diccionarois
+	elif (choice == "4"):
+		generarCampoEnDicc()                                 &/&//&/a pensar mas
+		print(bcolors.LB + "Consejo Agregado correctamente!" + bcolors.RESET)
 
